@@ -15,6 +15,11 @@ pipeline {
                 checkout scmGit(branches: [[name: 'master']], 
                         extensions: [], 
                         userRemoteConfigs: [[credentialsId: 'github-authentication-ssh', url: 'git@github.com:blanketspy99/test_gitrepo.git']])
+
+                sh 'python3 code/test.py'
+
+
+
                 
                 echo 'Hello World'
                 echo "Entered name is $inputName"
