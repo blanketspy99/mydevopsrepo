@@ -1,0 +1,39 @@
+
+
+pipeline {
+    parameters {
+  string description: 'Enter your name', name: 'inputName'
+  password defaultValue: '', name: 'inputPassword'
+}
+
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                
+                checkout scmGit(branches: [[name: 'master']], 
+                        extensions: [], 
+                        userRemoteConfigs: [[credentialsId: 'github-authentication-ssh', url: 'git@github.com:blanketspy99/test_gitrepo.git']])
+                
+                echo 'Hello World'
+                echo "Entered name is $inputName"
+                echo "Entered password is $inputPassword"
+                script {
+                    println env.inputName
+                    println params.inputName
+                }
+                
+                echo "$JOB_NAME"
+                
+                sh 'ls'
+                sh 'pwd'
+            }
+        }
+        stage('World'){
+            steps {
+                echo "This is a stage 2"
+            }
+        }
+    }
+}
